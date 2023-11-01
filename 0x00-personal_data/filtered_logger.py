@@ -66,13 +66,13 @@ def get_logger() -> logging.Logger:
 def get_db() -> mysql.connector.connection.MySQLConnection:
     '''Returns a connector to a db'''
     try:
-        db_connect = mysql.connector.connect(
+        db_connection = mysql.connector.connect(
             user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
             password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
             host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
             database=os.getenv('PERSONAL_DATA_DB_NAME')
         )
-        return db_connect
+        return db_connection
     except mysql.connector.Error as err:
         print(f'Error: {err}')
         return None
