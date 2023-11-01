@@ -4,6 +4,8 @@ Module: 'filtered_logger'
 Function that returns the log message obfuscated
 '''
 
+import mysql.connector
+import os
 import logging
 from typing import List
 import re
@@ -59,3 +61,23 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
+    '''Returns a connector to a db'''
+    db_username = os.environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    db_password = os.environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    db_host = os.environ.get("PERSONAL_DATA_DB_HOST", "localhost")
+    db_name = os.environ.get("PERSONAL_DATA_DB_NAME", "holberton")
+
+    try:
+        db = mysql.connector.connect(
+            user=db_username,
+            password=db_password,
+            host=db_host,
+            database=db_name
+        )
+        return db
+    except mysql.connector.Error as err:
+        print(f'Error: {err}')
+        return None
