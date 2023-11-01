@@ -38,4 +38,4 @@ class RedactingFormatter(logging.Formatter):
         '''Filter values in incoming log'''
         record.message = filter_datum(
             self.fields, self.REDACTION, record.getMessage(), self.SEPARATOR)
-        return super().format(record)
+        return super(RedactingFormatter, self).format(record)
