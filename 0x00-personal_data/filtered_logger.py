@@ -63,7 +63,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> mysql.connector.connection_cext.CMySQLConnection:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     '''Returns a connector to a db'''
     try:
         db_connection = mysql.connector.connect(
