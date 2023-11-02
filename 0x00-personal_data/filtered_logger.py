@@ -71,5 +71,4 @@ def get_db():
         host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
         database=os.getenv('PERSONAL_DATA_DB_NAME')
     )
-    print(db_connection)
     return db_connection
