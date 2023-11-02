@@ -66,7 +66,7 @@ def get_logger() -> logging.Logger:
 def get_db() -> mysql.connector.connection.MySQLConnection:
     '''Returns a connector to a db'''
     try:
-        db_connection = mysql.connector.connect(
+        db_connection = mysql.connector.connection.MySQLConnection(
             user=os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
             password=os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
             host=os.getenv('PERSONAL_DATA_DB_HOST', 'localhost'),
@@ -76,3 +76,29 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     except mysql.connector.Error as err:
         print(f'Error: {err}')
         return None
+
+
+def main() -> None:
+    '''Connects and returns formatted data from db'''
+    db = get_db()
+    if db is None:
+        return
+
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+
+    headers = [field[0] for field in cursor.description]
+    logger = get_logger()
+
+    for row in cursor:
+        str_row = ''
+        for r, h in zip(row, headers):
+            str_row += f'{h}={(r)}; '
+        logger.info(str_row)
+
+    cursor.close()
+    db.close()
+
+
+if __name__ == '__main__':
+    main()
