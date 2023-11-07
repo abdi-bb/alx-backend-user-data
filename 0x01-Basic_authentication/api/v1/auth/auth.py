@@ -2,7 +2,7 @@
 """
 Auth class to manage the API authentication
 """
-from flask import Auth
+from flask import request
 from typing import List
 
 
