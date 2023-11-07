@@ -10,15 +10,26 @@ class Auth():
     '''class Auth
     '''
 
-    def require_auth(self, path: str, excluded_paths: List[str], strict_slashes=False) -> bool:
+    def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         '''Returns False now
         '''
         if path is None:
             return True
         if excluded_paths is None or not excluded_paths:
             return True
-        if path in excluded_paths:
+
+        path_has_slash = path.endswith('/')
+        for excluded_path in excluded_paths:
+            if not excluded_path.endswith('/'):
+                excluded_path += '/'
+
+        if path_has_slash and path == excluded_path:
             return False
+
+        if not path_has_slash and path + '/' == excluded_path:
+            return False
+
+        return True
 
     def authorization_header(self, request=None) -> str:
         '''Returns None
