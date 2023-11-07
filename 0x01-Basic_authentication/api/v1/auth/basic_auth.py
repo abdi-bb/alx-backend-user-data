@@ -15,9 +15,8 @@ class BasicAuth(Auth):
         '''Returns Base64 part of Authorization'''
         if authorization_header is None:
             return None
-        elif not isinstance(authorization_header, str):
+        if not isinstance(authorization_header, str):
             return None
-        elif not authorization_header.startswith('Basic'):
+        if not authorization_header.startswith('Basic'):
             return None
-        else:
-            return authorization_header[5:]
+        return authorization_header[5:]
