@@ -1,6 +1,6 @@
 __pycache__/
 *venv/
-*-main.py
+*main.py
 *~
 *zip
 SimpleAPI
