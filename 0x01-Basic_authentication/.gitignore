@@ -2,3 +2,6 @@ __pycache__/
 *venv/
 *-main.py
 *~
+*zip
+SimpleAPI
+__MACOSX
