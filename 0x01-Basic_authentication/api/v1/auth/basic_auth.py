@@ -55,6 +55,9 @@ class BasicAuth(Auth):
         if len(parts) != 2:
             return (None, None)
 
+        email, password = parts
+        return (email, password)
+
     def user_object_from_credentials(self,
                                      user_email: str,
                                      user_pwd: str) -> TypeVar('User'):
