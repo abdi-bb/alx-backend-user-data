@@ -18,7 +18,7 @@ class Auth():
         if excluded_paths is None or not excluded_paths:
             return True
 
-        path_has_slash = path.endswith('/')
+        '''path_has_slash = path.endswith('/')
         for excluded_path in excluded_paths:
             if not excluded_path.endswith('/'):
                 excluded_path += '/'
@@ -27,6 +27,15 @@ class Auth():
                 return False
 
             if not path_has_slash and path + '/' == excluded_path:
+                return False
+
+        return True'''
+        for excluded_path in excluded_paths:
+            if excluded_path.endswith('*'):
+                # Remove the trailing wildcard character for comparison
+                excluded_path = excluded_path[:-1]
+
+            if path.startswith(excluded_path):
                 return False
 
         return True
