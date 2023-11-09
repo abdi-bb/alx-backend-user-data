@@ -58,8 +58,8 @@ def before_request() -> str:
                           '/api/v1/unauthorized/',
                           '/api/v1/forbidden/',
                           '/api/v1/auth_session/login/']
-        req_auth = auth.require_auth(request.path, excluded_paths)
-        if req_auth:
+        requires_auth = auth.require_auth(request.path, excluded_paths)
+        if requires_auth:
             if auth.authorization_header(request) is None:
                 if auth.session_cookie(request) is None:
                     abort(401)
