@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Class BasicAuth for the API
+BasicAuth class to manage the API authentication
 """
 
 from api.v1.auth.auth import Auth

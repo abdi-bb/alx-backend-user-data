@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Class Auth for the API
+Auth class to manage the API authentication
 """
-
 from flask import request
 from typing import List, TypeVar
 
@@ -21,14 +20,21 @@ class Auth():
 
         path_has_slash = path.endswith('/')
         for excluded_path in excluded_paths:
-            if not excluded_path.endswith('/'):
-                excluded_path += '/'
+            if not excluded_path.endswith('*'):
+                if not excluded_path.endswith('/'):
+                    excluded_path += '/'
 
-            if path_has_slash and path == excluded_path:
-                return False
+                if path_has_slash and path == excluded_path:
+                    return False
 
-            if not path_has_slash and path + '/' == excluded_path:
-                return False
+                if not path_has_slash and path + '/' == excluded_path:
+                    return False
+            else:
+                # Remove the trailing wildcard character for comparison
+                excluded_path = excluded_path[:-1]
+
+                if path.startswith(excluded_path):
+                    return False
 
         return True
 
