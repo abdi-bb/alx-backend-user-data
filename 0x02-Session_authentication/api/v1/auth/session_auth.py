@@ -5,6 +5,7 @@ SessionAuth class to manage the API authentication
 
 from api.v1.auth.auth import Auth
 from uuid import uuid4
+import os
 
 
 class SessionAuth(Auth):
@@ -24,3 +25,10 @@ class SessionAuth(Auth):
         if session_id is None or not isinstance(session_id, str):
             return None
         return self.user_id_by_session_id.get(session_id)
+
+    def session_cookie(self, request=None):
+        '''Returns cookie value from the request'''
+        if request is None:
+            return None
+        session_cookie_name = os.getenv('SESSION_NAME')
+        return request.cookies.get(session_cookie_name)
