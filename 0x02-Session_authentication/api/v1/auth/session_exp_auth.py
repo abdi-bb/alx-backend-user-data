@@ -16,7 +16,7 @@ class SessionExpAuth(SessionAuth):
         session_duration = os.getenv('SESSION_DURATION')
         self.session_duration = int(
             session_duration
-            )if session_duration and session_duration.isdigit() else 0
+        )if session_duration and session_duration.isdigit() else 0
 
     def create_session(self, user_id=None):
         '''Overloading create_session method of SessionAuth'''
@@ -36,8 +36,8 @@ class SessionExpAuth(SessionAuth):
         if session_id is None:
             return None
 
-        # if not session_id in self.user_id_by_session_id.keys():
-        #     return None
+        if not session_id in self.user_id_by_session_id.keys():
+            return None
 
         session_dict = self.user_id_by_session_id.get(session_id)
         if self.session_duration <= 0:
