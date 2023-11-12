@@ -18,11 +18,9 @@ class SessionDBAuth(SessionExpAuth):
         if session_id is None:
             return None
 
-        kwargs = {
-            'user_id': user_id,
-            'session_id': session_id
-        }
-        user_sessions = UserSession(**kwargs)
+        user_sessions = UserSession(user_id=user_id, session_id=session_id)
+        if user_sessions is None:
+            return None
         user_sessions.save()
 
         return session_id
@@ -32,6 +30,8 @@ class SessionDBAuth(SessionExpAuth):
         Return the User ID
         by querying SessionDBAuth in the database based on session_id.
         '''
+        if session_id is None:
+            return None
         user_id = UserSession.search({'session_id': session_id})
         if not user_id:
             return None
@@ -45,11 +45,16 @@ class SessionDBAuth(SessionExpAuth):
             return False
 
         session_id = self.session_cookie(request)
-        if not session_id:
+        if session_id is None:
+            return False
+
+        user_id = self.user_id_for_session_id(session_id)
+        if not user_id:
             return False
 
         user_sessions = UserSession.search({'session_id': session_id})
-        if not user_sessions:
+        if not user_sessions or user_sessions is None:
             return False
+
         user_sessions[0].remove()
         return True
