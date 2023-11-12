@@ -13,15 +13,18 @@ class SessionExpAuth(SessionAuth):
 
     def __init__(self) -> None:
         '''Instantiation'''
-        session_duration = os.getenv('SESSION_DURATION')
-        self.session_duration = int(
-            session_duration
-        )if session_duration and session_duration.isdigit() else 0
+        try:
+            session_duration = int(os.getenv('SESSION_DURATION'))
+        except Exception:
+            session_duration = 0
+        self.session_duration = session_duration
 
     def create_session(self, user_id=None):
-        '''Overloading create_session method of SessionAuth'''
+        '''
+        Overloading create_session method of SessionAuth
+        Create Session ID for user_id
+        '''
         session_id = super().create_session(user_id)
-
         if session_id is None:
             return None
         session_dict = {
@@ -32,7 +35,10 @@ class SessionExpAuth(SessionAuth):
         return session_id
 
     def user_id_for_session_id(self, session_id=None):
-        '''Overload user_id_for_session_id of SessionAuth'''
+        '''
+        Overload user_id_for_session_id of SessionAuth
+        Returns User ID based on Session ID
+        '''
         if session_id is None:
             return None
 
@@ -43,12 +49,13 @@ class SessionExpAuth(SessionAuth):
         if self.session_duration <= 0:
             return session_dict.get('user_id')
 
-        created_at = session_dict.get('created_at')
-        if created_at is None:
+        if 'created_at' not in session_dict.keys():
             return None
 
+        created_at = session_dict.get('created_at')
         now = datetime.now()
-        if created_at + timedelta(seconds=self.session_duration) < now:
+        allowed_window = created_at + timedelta(seconds=self.session_duration)
+        if allowed_window < now:
             return None
 
         return session_dict.get('user_id')
