@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Module of Session in Database
+""" Module of SessionDBAuth
 """
 from api.v1.auth.session_exp_auth import SessionExpAuth
 from datetime import datetime, timedelta
@@ -7,7 +7,7 @@ from models.user_session import UserSession
 
 
 class SessionDBAuth(SessionExpAuth):
-    """Session in database Class"""
+    """Class SessionDBAuth"""
 
     def create_session(self, user_id=None):
         """
