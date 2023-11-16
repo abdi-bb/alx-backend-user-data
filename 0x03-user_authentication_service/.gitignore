@@ -4,3 +4,4 @@ __pycache__/
 *~
 *venv/
 a.db
+a.db-journal
