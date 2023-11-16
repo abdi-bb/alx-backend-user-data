@@ -9,8 +9,7 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 
-from user import Base
-from user import User
+from user import Base, User
 
 
 class DB:
@@ -41,16 +40,14 @@ class DB:
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs: any) -> User:
+    def find_user_by(self, **kwargs) -> User:
         '''Find a user in the database based on the input arguments.'''
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
 
             if user is None:
-                raise NoResultFound(
-                    'No user found with the specified criteria.')
-
+                raise NoResultFound
             return user
 
-        except InvalidRequestError as err:
-            raise err
+        except InvalidRequestError:
+            raise InvalidRequestError
