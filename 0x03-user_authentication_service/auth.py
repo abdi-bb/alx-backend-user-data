@@ -51,3 +51,15 @@ class Auth:
                                    user.hashed_password):
             return True
         return False
+
+    def create_session(self, email: str) -> str:
+        '''Returns Session ID'''
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            return None
+        session_ID = _generate_uuid()
+        if user:
+            user.session_id = session_ID
+
+        return session_ID
