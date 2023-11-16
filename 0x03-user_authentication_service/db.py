@@ -46,7 +46,7 @@ class DB:
             raise InvalidRequestError
         for key in kwargs.keys():
             if not hasattr(User, key):
-                raise IndentationError
+                raise InvalidRequestError
         try:
             user = self._session.query(User).filter_by(**kwargs).first()
         except InvalidRequestError:
