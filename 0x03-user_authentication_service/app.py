@@ -36,9 +36,9 @@ def login():
     if not AUTH.valid_login(email, password):
         abort(401)
     else:
-        new_session = AUTH.create_session(email)
+        new_session_id = AUTH.create_session(email)
         response = jsonify({"email": email, "message": "logged in"})
-        response.set_cookie('session_id', new_session)
+        response.set_cookie('session_id', new_session_id)
         return response
 
 
