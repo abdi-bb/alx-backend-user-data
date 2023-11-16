@@ -91,3 +91,14 @@ class Auth:
         pwd_reset_token = _generate_uuid()
         user.reset_token = pwd_reset_token
         return pwd_reset_token
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        '''Updates User password'''
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+        except NoResultFound:
+            raise ValueError
+
+        hashed_pwd = _hash_password(password)
+        user.hashed_password = hashed_pwd
+        user.reset_token = None
