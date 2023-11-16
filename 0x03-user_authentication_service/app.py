@@ -5,7 +5,6 @@ Module app
 
 from flask import Flask, jsonify, request, abort, redirect, url_for
 from auth import Auth
-from db import DB
 
 app = Flask(__name__)
 AUTH = Auth()
@@ -46,8 +45,7 @@ def login():
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
 def logout():
     session_id = request.cookies.get('session_id')
-    db = DB()
-    user = db.find_user_by(session_id=session_id)
+    user = AUTH.get_user_from_session_id(session_id)
     if user:
         AUTH.destroy_session(user.id)
         return redirect(url_for('welcome'))
