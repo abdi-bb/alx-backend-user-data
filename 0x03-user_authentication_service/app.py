@@ -80,7 +80,7 @@ def get_reset_password_token():
 def update_password():
     '''Endpoint for /reset_password with PUT'''
     email = request.form.get('email')
-    reset_token = request.form.get('reset_password')
+    reset_token = request.form.get('reset_token')
     new_password = request.form.get('new_password')
 
     try:
