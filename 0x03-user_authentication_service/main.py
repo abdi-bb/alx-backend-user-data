@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+'''
+Main module for tsting purpose
+'''
+
 import requests
 
 BASE_URL = "http://localhost:5000"  # Update with your actual server URL
@@ -7,6 +12,7 @@ NEW_PASSWD = "t4rt1fl3tt3"
 
 
 def register_user(email: str, password: str) -> None:
+    ''' Register user'''
     url = f"{BASE_URL}/users"
     data = {"email": email, "password": password}
     response = requests.post(url, data=data)
@@ -14,6 +20,7 @@ def register_user(email: str, password: str) -> None:
 
 
 def log_in_wrong_password(email: str, password: str) -> None:
+    '''Using wrong password for logging in'''
     url = f"{BASE_URL}/sessions"
     data = {"email": email, "password": password}
     response = requests.post(url, data=data)
@@ -21,6 +28,7 @@ def log_in_wrong_password(email: str, password: str) -> None:
 
 
 def log_in(email: str, password: str) -> str:
+    '''Login'''
     url = f"{BASE_URL}/sessions"
     data = {"email": email, "password": password}
     response = requests.post(url, data=data)
@@ -29,12 +37,14 @@ def log_in(email: str, password: str) -> str:
 
 
 def profile_unlogged() -> None:
+    '''Unlogged profile'''
     url = f"{BASE_URL}/profile"
     response = requests.get(url)
     assert response.status_code == 403
 
 
 def profile_logged(session_id: str) -> None:
+    '''Logged profile'''
     url = f"{BASE_URL}/profile"
     cookies = {"session_id": session_id}
     response = requests.get(url, cookies=cookies)
@@ -42,6 +52,7 @@ def profile_logged(session_id: str) -> None:
 
 
 def log_out(session_id: str) -> None:
+    '''Logout'''
     url = f"{BASE_URL}/sessions"
     cookies = {"session_id": session_id}
     response = requests.delete(url, cookies=cookies)
@@ -49,6 +60,7 @@ def log_out(session_id: str) -> None:
 
 
 def reset_password_token(email: str) -> str:
+    '''Password_token reseting'''
     url = f"{BASE_URL}/reset_password"
     data = {"email": email}
     response = requests.post(url, data=data)
@@ -57,6 +69,7 @@ def reset_password_token(email: str) -> str:
 
 
 def update_password(email: str, reset_token: str, new_password: str) -> None:
+    '''Update password'''
     url = f"{BASE_URL}/reset_password"
     data = {"email": email, "reset_token": reset_token,
             "new_password": new_password}
