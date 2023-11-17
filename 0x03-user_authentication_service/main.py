@@ -56,7 +56,7 @@ def log_out(session_id: str) -> None:
     url = f"{BASE_URL}/sessions"
     cookies = {"session_id": session_id}
     response = requests.delete(url, cookies=cookies)
-    assert response.status_code == 302  # Assuming you're using redirect for logout
+    assert response.status_code == 302
 
 
 def reset_password_token(email: str) -> str:
